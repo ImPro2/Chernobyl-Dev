@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "CoreEngine/Log/Log.h"
+#include "CoreEngine/Events/Events.h"
 
 namespace CH {
 
@@ -13,7 +14,7 @@ namespace CH {
 
 	void Application::OnUpdate()
 	{
-		CH_CORE_INFO("OnUpdate()");
+		
 	}
 
 	void Application::OnDestroy()
