@@ -2,12 +2,13 @@
 
 int main()
 {
-	CH::Application* app = new CH::Application();
+	CH::Application::OnCreate();
 
-	while (app->GetRunState())
+	while (CH::Application::GetRunState())
 	{
-		app->OnUpdate();
+		CH::Application::OnUpdate();
 	}
 
+	CH::Application::OnDestroy();
 	return 0;
 }

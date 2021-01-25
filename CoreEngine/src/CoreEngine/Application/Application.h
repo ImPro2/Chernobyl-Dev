@@ -10,13 +10,13 @@ namespace CH {
 		Application() {}
 		~Application() {}
 
-		void OnUpdate();
-
-		void OnDestroy();
+		static void OnCreate();
+		static void OnUpdate();
+		static void OnDestroy();
 		
-		bool GetRunState() { return m_Running; }
+		static bool GetRunState() { return m_Running; }
 	private:
-		bool m_Running = true;
+		static bool m_Running;
 	};
 
 }
