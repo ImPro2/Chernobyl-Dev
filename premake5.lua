@@ -11,6 +11,14 @@ workspace "Chernobyl-Dev"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "ExternalLibs/GLFW/include"
+IncludeDir["ImGui"] = "ExternalLibs/imgui"
+IncludeDir["glm"] = "ExternalLibs/glm"
+
+include "ExternalLibs/GLFW"
+include "ExternalLibs/imgui"
+
 project "Chernobyl"
     location "Chernobyl"
     kind "ConsoleApp"
@@ -28,7 +36,8 @@ project "Chernobyl"
     
     includedirs
     {
-	    "CoreEngine/src"
+	    "CoreEngine/src",
+        "%{IncludeDir.GLFW}"
     }
 
     links
@@ -78,16 +87,25 @@ project "CoreEngine"
     includedirs
     {
 	    "CoreEngine/src",
-        "ExternalLibs/spdlog/include"
+        "ExternalLibs/spdlog/include",
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
+    links
+    {
+        "GLFW",
+        "ImGui"
+    }
     
     filter "system:windows"
         systemversion "latest"
 
         defines
         {
-            "CH_PLATFORM_WINDOWS"
+            "CH_PLATFORM_WINDOWS",
+            "GLFW_INCLUDE_NONE"
         }
 
     filter "configurations:Debug"
