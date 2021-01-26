@@ -117,12 +117,6 @@ namespace CH {
 
 	void Window::OnUpdate()
 	{
-		// check if the window is open
-		if (Event::s_CurrentWindowEvent == Event::WindowEvent::Close)
-			s_IsOpen = 1;
-		else
-			s_IsOpen = 0;
-		
 		//TODO: create vulkan swapchain and stuff
 		glfwSwapBuffers(s_Window);
 		glfwPollEvents();
@@ -132,6 +126,11 @@ namespace CH {
 	{
 		glfwDestroyWindow(s_Window);
 		glfwTerminate();
+	}
+
+	bool Window::IsOpen()
+	{
+		return Event::s_CurrentWindowEvent == Event::WindowEvent::AppTick;
 	}
 
 }

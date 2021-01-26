@@ -31,7 +31,6 @@ namespace CH {
 			CH_CORE_INFO("A key is pressed!");
 		else if (Event::s_CurrentKeyReleased == CH_KEY_A)
 			CH_CORE_INFO("A key is released (KeyReleasedEvent)");
-		
 	}
 
 	void Application::OnDestroy()

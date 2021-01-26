@@ -34,10 +34,7 @@ namespace CH {
 		static int GetWidth() { return s_Data.Width; }
 		static int GetHeight() { return s_Data.Height; }
 		static GLFWwindow* GetWindow() { return s_Window; }
-		static bool IsOpen() 
-		{
-			return s_IsOpen == 0;
-		}
+		static bool IsOpen();
 	};
 
 }
