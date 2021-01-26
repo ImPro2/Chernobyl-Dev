@@ -15,7 +15,7 @@ namespace CH {
 
 	private:
 		static void Create();
-		static void SetVSync();
+		static void SetVSync(bool enabled);
 		static void SetEventCallbacks();
 
 	private:
@@ -28,7 +28,6 @@ namespace CH {
 
 		static WindowData s_Data;
 		static GLFWwindow* s_Window;
-		static int s_IsOpen;
 
 	public:
 		static int GetWidth() { return s_Data.Width; }

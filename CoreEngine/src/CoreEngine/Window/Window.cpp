@@ -7,7 +7,6 @@ namespace CH {
 
 	Window::WindowData Window::s_Data;
 	GLFWwindow* Window::s_Window;
-	int Window::s_IsOpen = 1;
 
 	void Window::Init(const char* title, int width, int height)
 	{
@@ -18,7 +17,7 @@ namespace CH {
 		CH_CORE_ASSERT(glfwInit(), "Unable to initialize glfw!");
 
 		Create();
-		SetVSync();
+		SetVSync(false);
 		SetEventCallbacks();
 	}
 
@@ -29,9 +28,8 @@ namespace CH {
 		glfwMakeContextCurrent(s_Window);
 	}
 
-	void Window::SetVSync()
+	void Window::SetVSync(bool enabled)
 	{
-		
 	}
 
 	void Window::SetEventCallbacks()
