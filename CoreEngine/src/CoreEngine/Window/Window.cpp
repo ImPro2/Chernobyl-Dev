@@ -41,10 +41,29 @@ namespace CH {
 				s_Data.Width = width;
 				s_Data.Height = height;
 			});
+		glfwSetKeyCallback(s_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+			{
+				switch (action)
+				{
+				case GLFW_PRESS:
+				case GLFW_REPEAT:
+				{
+					Event::s_CurrentCategory = Event::EventCategory::KeyPressedEvent;
+					Event::s_CurrentKeyPressed = key;
+					break;
+				}
+				case GLFW_RELEASE:
+				{	
+					Event::s_CurrentCategory = Event::EventCategory::KeyReleasedEvent;
+					Event::s_CurrentKeyReleased = key;
+					break;
+				}
+				}
+			});
 		glfwSetCharCallback(s_Window, [](GLFWwindow* window, unsigned int keycode)
 			{
 				Event::s_CurrentCategory = Event::EventCategory::TypeEvent;
-				Event::s_CurrentKeyTyped = Event::TypeEvent(keycode);
+				Event::s_CurrentKeyTyped = keycode;
 			});
 
 		glfwSetMouseButtonCallback(s_Window, [](GLFWwindow* window, int button, int action, int mods)
@@ -89,14 +108,30 @@ namespace CH {
 				Event::s_MousePos.x = xPos;
 				Event::s_MousePos.y = yPos;
 			});
+		glfwSetWindowCloseCallback(s_Window, [](GLFWwindow* window)
+			{
+				Event::s_CurrentCategory = Event::EventCategory::WindowEvent;
+				Event::s_CurrentWindowEvent = Event::WindowEvent::Close;
+			});
 	}
 
 	void Window::OnUpdate()
 	{
+		// check if the window is open
+		if (Event::s_CurrentWindowEvent == Event::WindowEvent::Close)
+			s_IsOpen = 1;
+		else
+			s_IsOpen = 0;
+		
 		//TODO: create vulkan swapchain and stuff
-		s_IsOpen = glfwWindowShouldClose(s_Window);
 		glfwSwapBuffers(s_Window);
 		glfwPollEvents();
+	}
+
+	void Window::OnDestroy()
+	{
+		glfwDestroyWindow(s_Window);
+		glfwTerminate();
 	}
 
 }

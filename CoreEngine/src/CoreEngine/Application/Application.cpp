@@ -15,17 +15,28 @@ namespace CH {
 
 	void Application::OnUpdate()
 	{
+		// sets all events to their defaults
+		Event::Clear();
+		
+		// update window and swap buffers and such
 		Window::OnUpdate();
-		m_Running = Window::IsOpen();
 
-		if (Event::s_CurrentCategory == Event::EventCategory::MouseClickedEvent && Event::s_CurrentMouseButtonClicked == Event::MouseEvent::LEFT)
-			CH_CORE_INFO("Mouse button is clicked!");
-		if (Event::s_CurrentCategory == Event::EventCategory::TypeEvent && Event::s_CurrentKeyTyped == Event::TypeEvent::W)
-			CH_CORE_INFO("W key is presesd!");
+		// get run state, closes if false
+		m_Running = Window::IsOpen();
+		if (m_Running == false)
+			CH_CORE_INFO("Window close");
+
+		// temporary
+		if (Event::s_CurrentKeyPressed == CH_KEY_A)
+			CH_CORE_INFO("A key is pressed!");
+		else if (Event::s_CurrentKeyReleased == CH_KEY_A)
+			CH_CORE_INFO("A key is released (KeyReleasedEvent)");
+		
 	}
 
 	void Application::OnDestroy()
 	{
 		m_Running = false;
+		Window::OnDestroy();
 	}
 }

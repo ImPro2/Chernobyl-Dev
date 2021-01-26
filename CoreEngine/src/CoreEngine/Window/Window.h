@@ -11,6 +11,7 @@ namespace CH {
 	public:
 		static void Init(const char* title = "Chernobyl Engine", int width = 900, int height = 600);
 		static void OnUpdate();
+		static void OnDestroy();
 
 	private:
 		static void Create();
@@ -35,10 +36,7 @@ namespace CH {
 		static GLFWwindow* GetWindow() { return s_Window; }
 		static bool IsOpen() 
 		{
-			if (s_IsOpen == 0)
-				return true;
-			else
-				return false;
+			return s_IsOpen == 0;
 		}
 	};
 
