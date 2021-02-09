@@ -4,7 +4,7 @@
 
 // for the window
 #include "../Platform/Platform.h"
-#include "CoreEngine/Window/WindowCreation.h"
+#include "CoreEngine/Window/WindowHandler.h"
 
 #include "CoreEngine/Log/Log.h"
 #include "CoreEngine/Core.h"
@@ -17,7 +17,7 @@ namespace CH {
 		{
 		case Platforms::WINDOWS:
 		{
-			int state = glfwGetKey(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), keycode);
+			int state = glfwGetKey(static_cast<GLFWwindow*>(WindowHandler::GetNativeWindow()), keycode);
 			return state == GLFW_PRESS || state == GLFW_REPEAT;
 			break;
 		}
@@ -48,7 +48,7 @@ namespace CH {
 		{
 		case Platforms::WINDOWS:
 		{
-			glfwGetCursorPos(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), &xpos, &ypos);
+			glfwGetCursorPos(static_cast<GLFWwindow*>(WindowHandler::GetNativeWindow()), &xpos, &ypos);
 			return { (float)xpos, (float)ypos };
 			break;
 		}
@@ -65,7 +65,7 @@ namespace CH {
 		{
 		case Platforms::WINDOWS:
 		{
-			int state = glfwGetMouseButton(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), button);
+			int state = glfwGetMouseButton(static_cast<GLFWwindow*>(WindowHandler::GetNativeWindow()), button);
 			return state == GLFW_PRESS;
 			break;
 		}

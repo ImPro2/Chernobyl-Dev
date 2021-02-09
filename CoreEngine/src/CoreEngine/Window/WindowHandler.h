@@ -5,7 +5,7 @@
 namespace CH {
 
 	// wrapper class for the window class that handles different types of window creations etc. like OpenGLWindow, DX11Window, etc.
-	class WindowCreation
+	class WindowHandler
 	{
 	public:
 		static void CreateWindowNativeToPlatform();

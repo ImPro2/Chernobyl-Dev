@@ -1,4 +1,4 @@
-#include "WindowCreation.h"
+#include "WindowHandler.h"
 #include "../Platform/Platform.h"
 
 #include "../Log/Log.h"
@@ -8,9 +8,9 @@
 
 namespace CH {
 
-	void* WindowCreation::m_Window = nullptr;
+	void* WindowHandler::m_Window = nullptr;
 
-	void WindowCreation::CreateWindowNativeToPlatform()
+	void WindowHandler::CreateWindowNativeToPlatform()
 	{
 		switch (Platform::GetCurrentPlatform())
 		{
@@ -23,7 +23,7 @@ namespace CH {
 		}
 	}
 
-	void WindowCreation::UpdateWindow()
+	void WindowHandler::UpdateWindow()
 	{
 		switch (Platform::GetCurrentPlatform())
 		{
@@ -35,7 +35,7 @@ namespace CH {
 		}
 	}
 
-	void WindowCreation::DestroyWindow()
+	void WindowHandler::DestroyWindow()
 	{
 		switch (Platform::GetCurrentPlatform())
 		{
@@ -49,7 +49,7 @@ namespace CH {
 		}
 	}
 
-	bool WindowCreation::GetWindowRunState()
+	bool WindowHandler::GetWindowRunState()
 	{
 		bool result;
 		switch (Platform::GetCurrentPlatform())
@@ -69,7 +69,7 @@ namespace CH {
 		return false;
 	}
 
-	void* WindowCreation::GetNativeWindow()
+	void* WindowHandler::GetNativeWindow()
 	{
 		void* wnd = nullptr;
 		switch (Platform::GetCurrentPlatform())
@@ -88,7 +88,7 @@ namespace CH {
 		return wnd;
 	}
 
-	void WindowCreation::CreateOpenGLWindow()
+	void WindowHandler::CreateOpenGLWindow()
 	{
 		
 		m_Window = new OpenGLWindow();
@@ -103,7 +103,7 @@ namespace CH {
 		CH_INFO("Successfully created OpenGLWindow: Width: {0}, Height: {1}, Title: {2}, VSync: {3}", data.Width, data.Height, data.Title, data.isVsync);
 	}
 
-	void WindowCreation::CreateDX11Window()
+	void WindowHandler::CreateDX11Window()
 	{
 		m_Window = new DX11Window();
 

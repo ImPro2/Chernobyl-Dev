@@ -3,7 +3,7 @@
 #include "CoreEngine/Log/Log.h"
 #include "CoreEngine/Events/Events.h"
 #include "CoreEngine/Input/Input.h"
-#include "../Window/WindowCreation.h"
+#include "CoreEngine/Window/WindowHandler.h"
 
 namespace CH {
 
@@ -12,13 +12,13 @@ namespace CH {
 	void Application::OnCreate()
 	{
 		Log::Init();
-		WindowCreation::CreateWindowNativeToPlatform();
+		WindowHandler::CreateWindowNativeToPlatform();
 	}
 
 	void Application::OnUpdate()
 	{
 		// update window and swap buffers and such
-		WindowCreation::UpdateWindow();
+		WindowHandler::UpdateWindow();
 
 		//CH_CORE_INFO("Mouse X: {0}, Mouse Y: {1}", Event::s_MousePos.x, Event::s_MousePos.y);
 
@@ -30,13 +30,13 @@ namespace CH {
 			CH_CORE_INFO("a key is typed");
 
 		// get run state, closes if false
-		m_Running = WindowCreation::GetWindowRunState();
+		m_Running = WindowHandler::GetWindowRunState();
 		Event::Clear();
 	}
 
 	void Application::OnDestroy()
 	{
 		m_Running = false;
-		WindowCreation::DestroyWindow();
+		WindowHandler::DestroyWindow();
 	}
 }
