@@ -6,15 +6,35 @@
 
 namespace CH {
 
-	// when ever some sort of event like a key press or mouse moved event happens,
-	// a window api will call some sort of callback and sets the event category and the corresponding event.
-	// like when the a key is pressed, the lambda will do something like this:
+	// class for use by the engine
+	// NOTE: CHECK FOR AN EVENT AFTER WINDOW IS UPDATED
+	// 
+	// Check a mouse event:
+	////
+	////	if (CH::Event::s_CurrentMouseButtonClicked == CH::Event::MouseEvent::LEFT)
+	////		CH_CORE_INFO("Left mouse button is clicked");
 	//
-	// Event::s_CurrentCategory = Event::EventCategory::TypeEvent;
-	// Event::s_CurrentKey = Event::TypeEvent::code; // code is the keycode which key is pressed
+
+	// Check a KeyPressed and KeyReleased event
+	////
+	////	if (CH::Event::s_CurrentKeyPressed == CH_KEY_A)
+	////		CH_CORE_INFO("A key is pressed");
+	////
+	////	if (CH::Event::s_CurrentKeyReleased == CH_KEY_A)
+	////		CH_CORE_INFO("A key is released");
 	//
-	// and each frame the HandleEvents() function gets called which calls the function 
-	// correspondent to the event category, which sets a value.
+
+	// Check a KeyTyped event
+	////	if (CH::Event::s_CurrentKeyTyped == 'a')
+	////		CH_CORE_INFO("a key is pressed");
+	////	if (CH::Event::s_CurrentKeyTyped == 'A')
+	////		CH_CORE_INFO("A key is pressed");		// note that this is different
+	//
+
+	// Get mouse position
+	////	Vec2 mousePos = CH::Event::s_MousePos;
+	////	CH_CORE_INFO("X: {0}, Y: {1}", mousePos.x, mousePos.y);
+	//
 
 	class Event
 	{

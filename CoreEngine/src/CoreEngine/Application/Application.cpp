@@ -20,20 +20,6 @@ namespace CH {
 		// update window and swap buffers and such
 		WindowCreation::UpdateWindow();
 
-		if (Event::s_CurrentMouseButtonClicked == Event::MouseEvent::LEFT)
-			CH_CORE_INFO("Left mouse button is pressed");
-		if (Event::s_CurrentMouseButtonClicked == Event::MouseEvent::RIGHT)
-			CH_CORE_INFO("Right mouse button is pressed");
-		if (Event::s_CurrentMouseButtonClicked == Event::MouseEvent::MIDDLE)
-			CH_CORE_INFO("Middle mouse button is pressed");
-
-		if (Event::s_CurrentMouseButtonReleased == Event::MouseEvent::LEFT)
-			CH_CORE_INFO("Left mouse button is released");
-		if (Event::s_CurrentMouseButtonReleased == Event::MouseEvent::RIGHT)
-			CH_CORE_INFO("Right mouse button is released");
-		if (Event::s_CurrentMouseButtonReleased == Event::MouseEvent::MIDDLE)
-			CH_CORE_INFO("Middle mouse button is released");
-
 		// get run state, closes if false
 		m_Running = WindowCreation::GetWindowRunState();
 		Event::Clear();

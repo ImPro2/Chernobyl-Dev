@@ -15,6 +15,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     //
     case WM_CREATE:
     {
+        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::Create;
         CH::DX11Window* window = (CH::DX11Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
         window->SetHWND(hWnd);
@@ -22,6 +23,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     }
     case WM_DESTROY:
     {
+        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::Close;
         CH::DX11Window* window = (CH::DX11Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
         window->SetOpen(false);
         ::PostQuitMessage(0);
@@ -120,7 +122,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
         break;
     }
     default:
+    {
+        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::AppTick;
         return DefWindowProc(hWnd, Msg, wparam, lparam);
+    }
     }
     return NULL;
 }
