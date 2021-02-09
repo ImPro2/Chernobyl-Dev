@@ -3,14 +3,29 @@
 #include <GLFW/glfw3.h>
 
 // for the window
-#include "CoreEngine/Window/Window.h"
+#include "../Platform/Platform.h"
+#include "CoreEngine/Window/WindowCreation.h"
+
+#include "CoreEngine/Log/Log.h"
+#include "CoreEngine/Core.h"
 
 namespace CH {
 
 	bool Input::IsKeyPressed(int keycode)
 	{
-		int state = glfwGetKey(Window::GetWindow(), keycode);
-		return state == GLFW_PRESS || state == GLFW_REPEAT;
+		switch (Platform::GetCurrentPlatform())
+		{
+		case Platforms::WINDOWS:
+		{
+			int state = glfwGetKey(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), keycode);
+			return state == GLFW_PRESS || state == GLFW_REPEAT;
+			break;
+		}
+
+		default:
+			CH_ASSERT(false, "Invalid Window");
+		}
+		return false;
 	}
 
 	int Input::GetMousePosX()
@@ -28,14 +43,37 @@ namespace CH {
 	std::pair<int, int> Input::GetMousePos()
 	{
 		double xpos, ypos;
-		glfwGetCursorPos(Window::GetWindow(), &xpos, &ypos);
-		return { (float)xpos, (float)ypos };
+
+		switch (Platform::GetCurrentPlatform())
+		{
+		case Platforms::WINDOWS:
+		{
+			glfwGetCursorPos(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), &xpos, &ypos);
+			return { (float)xpos, (float)ypos };
+			break;
+		}
+
+		default:
+			CH_ASSERT(false, "Invalid Window");
+		}
+		return std::pair<int, int>();
 	}
 
 	bool Input::IsMouseButtonPressed(int button)
 	{
-		int state = glfwGetMouseButton(Window::GetWindow(), button);
-		return state == GLFW_PRESS;
+		switch (Platform::GetCurrentPlatform())
+		{
+		case Platforms::WINDOWS:
+		{
+			int state = glfwGetMouseButton(static_cast<GLFWwindow*>(WindowCreation::GetNativeWindow()), button);
+			return state == GLFW_PRESS;
+			break;
+		}
+		default:
+			CH_ASSERT(false, "Invalid Window");
+		}
+
+		return false;
 	}
 
 }

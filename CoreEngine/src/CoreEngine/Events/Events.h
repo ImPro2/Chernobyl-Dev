@@ -7,7 +7,7 @@
 namespace CH {
 
 	// when ever some sort of event like a key press or mouse moved event happens,
-	// glfw will call a lambda which sets the event category and the corresponding event.
+	// a window api will call some sort of callback and sets the event category and the corresponding event.
 	// like when the a key is pressed, the lambda will do something like this:
 	//
 	// Event::s_CurrentCategory = Event::EventCategory::TypeEvent;
@@ -19,19 +19,6 @@ namespace CH {
 	class Event
 	{
 	public:
-		// not used by client
-		// each event category has an enum/struct
-		enum class EventCategory
-		{
-			TypeEvent,
-			KeyPressedEvent,
-			KeyReleasedEvent,
-			MouseClickedEvent,
-			MouseReleasedEvent,
-			MouseMovedEvent,
-			MouseScrolledEvent,
-			WindowEvent
-		};
 
 		// mouse clicking/released
 		enum class MouseEvent
@@ -45,6 +32,7 @@ namespace CH {
 		// for window events
 		enum class WindowEvent
 		{
+			Create,
 			AppTick,	// Could also be None
 			Close
 		};
@@ -55,7 +43,6 @@ namespace CH {
 		// for mouse scrolled event
 		static Vec2 s_MouseScrollOffset;
 
-		static EventCategory s_CurrentCategory;
 		static int s_CurrentKeyTyped;
 		static int s_CurrentKeyPressed;
 		static int s_CurrentKeyReleased;
@@ -65,7 +52,6 @@ namespace CH {
 
 	public:
 		// functions
-		static EventCategory GetCurrentCategory() { return s_CurrentCategory; }
 		static int GetCurrentKeyTyped() { return s_CurrentKeyTyped; }
 		static int GetCurrentKeyReleased() { return s_CurrentKeyReleased;  }
 		static MouseEvent GetCurrentMouseButtonClicked() { return s_CurrentMouseButtonClicked; }

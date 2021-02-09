@@ -2,38 +2,46 @@
 
 #include "CoreEngine/Core.h"
 
-#include <GLFW/glfw3.h>
+#ifdef CH_PLATFORM_WINDOWS
+#include <Windows.h>
+#endif
 
 namespace CH {
 
+	// interface representing a window on a desktop system
 	class Window
 	{
 	public:
-		static void Init(const char* title = "Chernobyl Engine", int width = 900, int height = 600);
-		static void OnUpdate();
-		static void OnDestroy();
-
-	private:
-		static void Create();
-		static void SetVSync(bool enabled);
-		static void SetEventCallbacks();
-
-	private:
-		struct WindowData
+		struct OpenGLWindowData
 		{
 			const char* Title;
 			int Width;
 			int Height;
+			bool isVsync;
 		};
 
-		static WindowData s_Data;
-		static GLFWwindow* s_Window;
+		struct DX11WindowData
+		{
+			const wchar_t* Title;
+			UINT Width;
+			UINT Height;
+			bool isVsync;
+		};
 
-	public:
-		static int GetWidth() { return s_Data.Width; }
-		static int GetHeight() { return s_Data.Height; }
-		static GLFWwindow* GetWindow() { return s_Window; }
-		static bool IsOpen();
+		enum class WindowType
+		{
+			OPENGL_WINDOW,
+			DX11_WINDOW
+		};
+
+	protected:
+		virtual bool Init(OpenGLWindowData wndData) = 0;
+		virtual bool Init(DX11WindowData wndData) = 0;
+		virtual void Destroy() = 0;
+		virtual void Update() = 0;
+		virtual bool IsOpen() = 0;
+		virtual OpenGLWindowData GetOpenGLWindowData() = 0;
+		virtual DX11WindowData GetDX11WindowData() = 0;
+		virtual void* GetNativeWindow() = 0;
 	};
-
 }

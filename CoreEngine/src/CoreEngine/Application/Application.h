@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreEngine/Core.h"
-#include "CoreEngine/Window/Window.h"
 
 namespace CH {
 

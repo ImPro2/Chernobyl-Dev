@@ -13,10 +13,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "ExternalLibs/GLFW/include"
+IncludeDir["Glad"] = "ExternalLibs/Glad/include"
 IncludeDir["ImGui"] = "ExternalLibs/imgui"
 IncludeDir["glm"] = "ExternalLibs/glm"
 
 include "ExternalLibs/GLFW"
+include "ExternalLibs/Glad"
 include "ExternalLibs/imgui"
 
 project "Chernobyl"
@@ -42,6 +44,9 @@ project "Chernobyl"
 
     links
     {
+        "ImGui",
+        "GLFW",
+        "Glad",
         "CoreEngine"
     }
 
@@ -90,13 +95,15 @@ project "CoreEngine"
         "ExternalLibs/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.Glad}",
     }
 
     links
     {
+        "ImGui",
         "GLFW",
-        "ImGui"
+        "Glad"
     }
     
     filter "system:windows"
@@ -106,6 +113,12 @@ project "CoreEngine"
         {
             "CH_PLATFORM_WINDOWS",
             "GLFW_INCLUDE_NONE"
+        }
+
+        links
+        {
+            "d3d11.lib",
+            "d3dcompiler.lib"
         }
 
     filter "configurations:Debug"
