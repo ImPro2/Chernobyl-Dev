@@ -1,8 +1,8 @@
 #include "Application.h"
 
 #include "CoreEngine/Log/Log.h"
-#include "CoreEngine/Events/Events.h"
-#include "CoreEngine/Input/Input.h"
+#include "CoreEngine/Events/Events.h"			// temporary
+#include "CoreEngine/Input/Input.h"				// temporary
 #include "CoreEngine/Window/WindowHandler.h"
 
 namespace CH {
@@ -20,14 +20,10 @@ namespace CH {
 		// update window and swap buffers and such
 		WindowHandler::UpdateWindow();
 
-		//CH_CORE_INFO("Mouse X: {0}, Mouse Y: {1}", Event::s_MousePos.x, Event::s_MousePos.y);
-
-		if (Event::s_CurrentKeyPressed == CH_KEY_A)
+		if (Input::IsKeyPressed(CH_KEY_A))
 			CH_CORE_INFO("A key is pressed");
-		if (Event::s_CurrentKeyReleased == CH_KEY_A)
-			CH_CORE_INFO("A key is released");
-		if (Event::s_CurrentKeyTyped == 'a')
-			CH_CORE_INFO("a key is typed");
+		else if (Input::IsKeyPressed(CH_KEY_W))
+			CH_CORE_INFO("W key is presseed");
 
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();

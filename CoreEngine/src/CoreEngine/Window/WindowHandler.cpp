@@ -5,10 +5,9 @@
 #include "../RenderAPIs/OpenGL/OpenGLWindow/OpenGLWindow.h"
 #include "../RenderAPIs/DirectX/DX11Window.h"
 
-
 namespace CH {
 
-	void* WindowHandler::m_Window = nullptr;
+	Window* WindowHandler::m_Window = nullptr;
 
 	void WindowHandler::CreateWindowNativeToPlatform()
 	{

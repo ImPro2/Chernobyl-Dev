@@ -20,7 +20,7 @@ namespace CH {
 		static void CreateDX11Window();
 
 	private:
-		static void* m_Window;
+		static Window* m_Window;
 	};
 
 }
