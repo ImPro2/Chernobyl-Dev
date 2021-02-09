@@ -19,6 +19,8 @@ namespace CH {
 		OpenGLWindowData GetOpenGLWindowData() override;
 
 	private:
+		void SetEventCallbacks();
+
 		GLFWwindow* m_GLFW_Window;
 		OpenGLWindowData m_WindowData;
 
