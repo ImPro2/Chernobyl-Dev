@@ -46,6 +46,8 @@ namespace CH {
 		static int s_CurrentKeyTyped;
 		static int s_CurrentKeyPressed;
 		static int s_CurrentKeyReleased;
+		static int s_CurrentSysKeyDown;
+		static int s_CurrentSysKeyUp;
 		static MouseEvent s_CurrentMouseButtonClicked;
 		static MouseEvent s_CurrentMouseButtonReleased;
 		static WindowEvent s_CurrentWindowEvent;
@@ -62,6 +64,5 @@ namespace CH {
 
 		// called first thing each frame (before other function calls)
 		static void Clear();
-
 	};
 }

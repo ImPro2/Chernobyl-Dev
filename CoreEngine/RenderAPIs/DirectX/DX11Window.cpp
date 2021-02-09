@@ -1,9 +1,18 @@
 #include "DX11Window.h"
 
+#include "CoreEngine/Events/Events.h"
+#include "CoreEngine/Log/Log.h"
+
+#include <WinUser.h>
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
 {
     switch (Msg)
     {
+
+    //
+    //  Creation and Destruction
+    //
     case WM_CREATE:
     {
         CH::DX11Window* window = (CH::DX11Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
@@ -16,6 +25,98 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
         CH::DX11Window* window = (CH::DX11Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
         window->SetOpen(false);
         ::PostQuitMessage(0);
+        break;
+    }
+
+    //
+    // Mouse Buttons
+    //
+
+    // left
+    case WM_LBUTTONDOWN:
+    {
+        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::LEFT;
+        break;
+    }
+    case WM_LBUTTONUP:
+    {
+        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::LEFT;
+        break;
+    }
+
+    // right
+    case WM_RBUTTONDOWN:
+    {
+        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::RIGHT;
+        break;
+    }
+    case WM_RBUTTONUP:
+    {
+        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::RIGHT;
+        break;
+    }
+
+    // middle
+    case WM_MBUTTONDOWN:
+    {
+        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::MIDDLE;
+        break;
+    }
+    case WM_MBUTTONUP:
+    {
+        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::MIDDLE;
+        break;
+    }
+
+    //
+    // Keys
+    //
+
+    // normal keys
+    case WM_KEYDOWN:
+    {
+        CH::Event::s_CurrentKeyPressed = wparam;
+        break;
+    }
+    case WM_KEYUP:
+    {
+        CH::Event::s_CurrentKeyReleased = wparam;
+        break;
+    }
+
+    // alt keys
+    case WM_SYSKEYDOWN:
+    {
+        CH::Event::s_CurrentSysKeyDown = wparam;
+        break;
+    }
+    case WM_SYSKEYUP:
+    {
+        CH::Event::s_CurrentSysKeyUp = wparam;
+        break;
+    }
+
+    // typing
+    case WM_CHAR:
+    {
+        CH::Event::s_CurrentKeyTyped = wparam;
+        break;
+    }
+
+    //
+    // Other mouse stuff
+    //
+    case WM_MOUSEWHEEL:
+    {
+        int delta = GET_WHEEL_DELTA_WPARAM(wparam);
+        CH::Event::s_MouseScrollOffset.x = delta;
+        break;
+    }
+    case WM_MOUSEMOVE:
+    {
+        POINTS pt = MAKEPOINTS(lparam);
+        CH::Event::s_MousePos.x = pt.x;
+        CH::Event::s_MousePos.y = pt.y;
         break;
     }
     default:
