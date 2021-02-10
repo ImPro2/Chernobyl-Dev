@@ -4,6 +4,7 @@
 #include "CoreEngine/Events/Events.h"			// temporary
 #include "CoreEngine/Input/Input.h"				// temporary
 #include "CoreEngine/Window/WindowHandler.h"
+#include "CoreEngine/DeltaTime/DeltaTime.h"
 
 namespace CH {
 
@@ -17,17 +18,19 @@ namespace CH {
 
 	void Application::OnUpdate()
 	{
+		// set the time difference between two frames
+		Time::SetDeltaTime();
+
 		// update window and swap buffers and such
 		WindowHandler::UpdateWindow();
 
-		if (Input::IsKeyPressed(CH_KEY_A))
-			CH_CORE_INFO("A key is pressed");
-		else if (Input::IsKeyPressed(CH_KEY_W))
-			CH_CORE_INFO("W key is presseed");
+		CH_CORE_INFO("DeltaTime: {0}", DeltaTime);
 
+		// clear events to be used next time
+		Event::Clear();
+		
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
-		Event::Clear();
 	}
 
 	void Application::OnDestroy()
