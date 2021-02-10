@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreEngine/Core/Core.h"
+#include "CoreEngine/ImGuiLayer/ImGuiLayer.h"
 
 namespace CH {
 
@@ -17,6 +18,9 @@ namespace CH {
 		static bool GetRunState() { return m_Running; }
 	private:
 		static bool m_Running;
+
+		// TEMPORARY
+		static ImGuiLayer* m_ImGuiLayer;
 	};
 
 }

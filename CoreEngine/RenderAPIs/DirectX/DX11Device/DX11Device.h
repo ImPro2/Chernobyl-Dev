@@ -14,6 +14,7 @@ namespace CH {
 
 	private:
 		static ID3D11Device* m_D3D_Device;
+		static ID3D11DeviceContext* m_D3D_DeviceContext;
 		static D3D_FEATURE_LEVEL* m_D3D_FeatureLevel;
 
 		friend class GraphicsEngine;

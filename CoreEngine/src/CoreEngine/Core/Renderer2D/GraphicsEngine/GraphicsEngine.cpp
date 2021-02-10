@@ -38,7 +38,7 @@ namespace CH {
 		case Platforms::WINDOWS:
 		{
 			DX11Device::Destroy();
-			DX11DeviceContext::Destroy();
+			//DX11DeviceContext::Destroy();
 			break;
 		}
 		case Platforms::MACOS:
@@ -56,7 +56,7 @@ namespace CH {
 
 	void* GraphicsEngine::GetD3DDeviceContext()
 	{
-		return DX11DeviceContext::m_D3D_DeviceContext;
+		return DX11Device::m_D3D_DeviceContext;
 	}
 
 }

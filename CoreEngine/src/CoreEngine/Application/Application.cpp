@@ -7,11 +7,11 @@
 #include "CoreEngine/Core/DeltaTime/DeltaTime.h"
 #include "CoreEngine/Core/Layer/LayerHandler.h"
 #include "CoreEngine/Core/Renderer2D/Renderer/Renderer.h"
-#include "CoreEngine/ImGuiLayer/ImGuiLayer.h"
 
 namespace CH {
 
 	bool Application::m_Running = true;
+	ImGuiLayer* Application::m_ImGuiLayer = new ImGuiLayer();
 
 	void Application::OnCreate()
 	{
@@ -20,7 +20,7 @@ namespace CH {
 		LayerHandler::Init();
 		Renderer::Init();
 
-		LayerHandler::AddFront(new ImGuiLayer());
+		LayerHandler::AddFront(m_ImGuiLayer);
 	}
 
 	void Application::OnUpdate()
@@ -39,8 +39,12 @@ namespace CH {
 		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnEvent();
 
+		m_ImGuiLayer->Begin();
+
 		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnImGuiRender();
+
+		m_ImGuiLayer->End();
 
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();

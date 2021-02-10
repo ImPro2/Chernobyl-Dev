@@ -44,6 +44,8 @@ namespace CH {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
+		bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 
 	void ImGuiLayer::Begin()

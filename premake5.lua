@@ -39,7 +39,8 @@ project "Chernobyl"
     includedirs
     {
 	    "CoreEngine/src",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "ExternalLibs/spdlog/include"
     }
 
     links

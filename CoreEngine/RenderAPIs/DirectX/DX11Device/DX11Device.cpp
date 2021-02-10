@@ -6,8 +6,9 @@
 
 namespace CH {
 
-	ID3D11Device*		DX11Device::m_D3D_Device;
-	D3D_FEATURE_LEVEL*	DX11Device::m_D3D_FeatureLevel;
+	ID3D11Device*			DX11Device::DX11Device::m_D3D_Device;
+	ID3D11DeviceContext*	DX11Device::m_D3D_DeviceContext;
+	D3D_FEATURE_LEVEL*		DX11Device::DX11Device::m_D3D_FeatureLevel;
 
 	void DX11Device::Init()
 	{
@@ -25,8 +26,6 @@ namespace CH {
 		};
 		UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
-		ID3D11DeviceContext* context = DX11DeviceContext::GetD3DDeviceContext();
-
 		HRESULT result = 0;
 
 		for (int i = 0; i < numDriverTypes; i++)
@@ -41,7 +40,7 @@ namespace CH {
 				D3D11_SDK_VERSION,
 				&m_D3D_Device,
 				m_D3D_FeatureLevel,
-				&context);
+				&m_D3D_DeviceContext);
 
 			if (SUCCEEDED(result))
 				break;
@@ -51,7 +50,7 @@ namespace CH {
 
 		CH_ASSERT(SUCCEEDED(result), "Failed to create D3D11Device :(");
 
-		CH_CORE_INFO("Successfully initialized DX11DeviceContext");
+		CH_CORE_INFO("Successfully initialized DX11Device");
 	}
 
 	void DX11Device::Destroy()
