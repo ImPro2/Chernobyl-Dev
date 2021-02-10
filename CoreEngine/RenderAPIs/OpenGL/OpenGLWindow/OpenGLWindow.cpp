@@ -1,8 +1,8 @@
 #include "OpenGLWindow.h"
 
-#include "CoreEngine/Log/Log.h"
+#include "CoreEngine/Core/Log/Log.h"
 #include "CoreEngine/Events/EventHandler.h"
-#include "CoreEngine/Core.h"
+#include "CoreEngine/Core/Core.h"
 
 namespace CH {
 

@@ -6,8 +6,8 @@
 #include "../Platform/Platform.h"
 #include "CoreEngine/Window/WindowHandler.h"
 
-#include "CoreEngine/Log/Log.h"
-#include "CoreEngine/Core.h"
+#include "CoreEngine/Core/Log/Log.h"
+#include "CoreEngine/Core/Core.h"
 
 #include "CoreEngine/Events/EventHandler.h"
 

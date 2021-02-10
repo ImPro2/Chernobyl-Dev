@@ -1,10 +1,13 @@
 #include "Application.h"
 
-#include "CoreEngine/Log/Log.h"
+#include "CoreEngine/Core/Log/Log.h"
 #include "CoreEngine/Events/EventHandler.h"
 #include "CoreEngine/Input/Input.h"				// temporary
 #include "CoreEngine/Window/WindowHandler.h"
-#include "CoreEngine/DeltaTime/DeltaTime.h"
+#include "CoreEngine/Core/DeltaTime/DeltaTime.h"
+#include "CoreEngine/Core/Layer/LayerHandler.h"
+#include "CoreEngine/Core/Renderer2D/Renderer/Renderer.h"
+#include "CoreEngine/ImGuiLayer/ImGuiLayer.h"
 
 namespace CH {
 
@@ -14,6 +17,10 @@ namespace CH {
 	{
 		Log::Init();
 		WindowHandler::CreateWindowNativeToPlatform();
+		LayerHandler::Init();
+		Renderer::Init();
+
+		LayerHandler::AddFront(new ImGuiLayer());
 	}
 
 	void Application::OnUpdate()
@@ -26,9 +33,15 @@ namespace CH {
 		Time::SetDeltaTime();
 
 		// all update here
-		if (EventHandler::GetKeyPressed() == CH_KEY_A)
-			CH_CORE_INFO("A key is pressed");
-		
+		for (Layer* layer : LayerHandler::GetLayerStack())
+			layer->OnUpdate();
+
+		for (Layer* layer : LayerHandler::GetLayerStack())
+			layer->OnEvent();
+
+		for (Layer* layer : LayerHandler::GetLayerStack())
+			layer->OnImGuiRender();
+
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
 	}
@@ -37,5 +50,7 @@ namespace CH {
 	{
 		m_Running = false;
 		WindowHandler::DestroyWindow();
+		LayerHandler::Destroy();
+		Renderer::Destroy();
 	}
 }

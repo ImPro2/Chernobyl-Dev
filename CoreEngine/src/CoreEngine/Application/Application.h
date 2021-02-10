@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CoreEngine/Core.h"
+#include "CoreEngine/Core/Core.h"
 
 namespace CH {
 

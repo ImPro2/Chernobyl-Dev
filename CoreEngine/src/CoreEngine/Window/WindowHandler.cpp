@@ -1,9 +1,9 @@
 #include "WindowHandler.h"
 #include "../Platform/Platform.h"
 
-#include "../Log/Log.h"
+#include "CoreEngine/Core/Log/Log.h"
 #include "../RenderAPIs/OpenGL/OpenGLWindow/OpenGLWindow.h"
-#include "../RenderAPIs/DirectX/DX11Window.h"
+#include "../RenderAPIs/DirectX/DX11Window/DX11Window.h"
 
 namespace CH {
 
