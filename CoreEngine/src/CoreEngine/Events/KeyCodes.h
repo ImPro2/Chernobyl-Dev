@@ -126,6 +126,7 @@
 #define CH_KEY_MENU               348
 
 // mouse codes
+#define CH_MOUSE_BUTTON_UNKNOWN	 -1
 #define CH_MOUSE_BUTTON_1         0
 #define CH_MOUSE_BUTTON_2         1
 #define CH_MOUSE_BUTTON_3         2

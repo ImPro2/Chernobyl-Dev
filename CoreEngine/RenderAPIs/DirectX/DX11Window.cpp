@@ -1,6 +1,6 @@
 #include "DX11Window.h"
 
-#include "CoreEngine/Events/Events.h"
+#include "CoreEngine/Events/EventHandler.h"
 #include "CoreEngine/Log/Log.h"
 
 #include <WinUser.h>
@@ -15,15 +15,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     //
     case WM_CREATE:
     {
-        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::Create;
         CH::DX11Window* window = (CH::DX11Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
         window->SetHWND(hWnd);
+
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::WindowCreate);
+        CH::EventHandler::AddEvent(e);
+
         break;
     }
     case WM_DESTROY:
     {
-        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::Close;
+
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::WindowClose);
+        CH::EventHandler::AddEvent(e);
+
         CH::DX11Window* window = (CH::DX11Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
         window->SetOpen(false);
         ::PostQuitMessage(0);
@@ -37,36 +43,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     // left
     case WM_LBUTTONDOWN:
     {
-        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::LEFT;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::LButtonClicked);
+        CH::EventHandler::AddEvent(e);
         break;
     }
     case WM_LBUTTONUP:
     {
-        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::LEFT;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::LButtonReleased);
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
     // right
     case WM_RBUTTONDOWN:
     {
-        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::RIGHT;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::RButtonClicked);
+        CH::EventHandler::AddEvent(e);
         break;
     }
     case WM_RBUTTONUP:
     {
-        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::RIGHT;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::RButtonReleased);
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
     // middle
     case WM_MBUTTONDOWN:
     {
-        CH::Event::s_CurrentMouseButtonClicked = CH::Event::MouseEvent::MIDDLE;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::MButtonClicked);
+        CH::EventHandler::AddEvent(e);
         break;
     }
     case WM_MBUTTONUP:
     {
-        CH::Event::s_CurrentMouseButtonReleased = CH::Event::MouseEvent::MIDDLE;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::MButtonReleased);
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
@@ -77,31 +89,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     // normal keys
     case WM_KEYDOWN:
     {
-        CH::Event::s_CurrentKeyPressed = wparam;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::KeyPressed);
+        e->KeyPressed = wparam;
+
+        CH::EventHandler::AddEvent(e);
         break;
     }
     case WM_KEYUP:
     {
-        CH::Event::s_CurrentKeyReleased = wparam;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::KeyReleased);
+        e->KeyReleased = wparam;
+
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
     // alt keys
     case WM_SYSKEYDOWN:
     {
-        CH::Event::s_CurrentSysKeyDown = wparam;
-        break;
-    }
-    case WM_SYSKEYUP:
-    {
-        CH::Event::s_CurrentSysKeyUp = wparam;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::SysKeyPressed);
+        e->SysKeyPressed = wparam;
+
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
     // typing
     case WM_CHAR:
     {
-        CH::Event::s_CurrentKeyTyped = wparam;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::KeyTyped);
+        e->KeyTyped = wparam;
+        CH::EventHandler::AddEvent(e);
         break;
     }
 
@@ -111,19 +129,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
     case WM_MOUSEWHEEL:
     {
         int delta = GET_WHEEL_DELTA_WPARAM(wparam);
-        CH::Event::s_MouseScrollOffset.x = delta;
+       
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::MouseScrolled);
+        e->MouseScrollOffset = delta;
+
+        CH::EventHandler::AddEvent(e);
         break;
     }
     case WM_MOUSEMOVE:
     {
         POINTS pt = MAKEPOINTS(lparam);
-        CH::Event::s_MousePos.x = pt.x;
-        CH::Event::s_MousePos.y = pt.y;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::MouseMoved);
+        e->MousePos.x = pt.x;
+        e->MousePos.y = pt.y;
+        CH::EventHandler::AddEvent(e);
         break;
     }
     default:
     {
-        CH::Event::s_CurrentWindowEvent = CH::Event::WindowEvent::AppTick;
+        CH::Event* e = new CH::Event(CH::Event::EventTypes::AppTick);
+        CH::EventHandler::AddEvent(e);
         return DefWindowProc(hWnd, Msg, wparam, lparam);
     }
     }

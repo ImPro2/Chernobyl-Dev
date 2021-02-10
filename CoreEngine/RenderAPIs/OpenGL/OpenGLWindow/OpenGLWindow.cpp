@@ -1,7 +1,7 @@
 #include "OpenGLWindow.h"
 
 #include "CoreEngine/Log/Log.h"
-#include "CoreEngine/Events/Events.h"
+#include "CoreEngine/Events/EventHandler.h"
 #include "CoreEngine/Core.h"
 
 namespace CH {
@@ -51,6 +51,18 @@ namespace CH {
 
 	void OpenGLWindow::SetEventCallbacks()
 	{
+		glfwSetWindowPosCallback(m_GLFW_Window, [](GLFWwindow* window, int xpos, int ypos)
+			{
+				Event* e = new Event(Event::EventTypes::WindowMove);
+				EventHandler::AddEvent(e);
+			});
+
+		glfwSetWindowCloseCallback(m_GLFW_Window, [](GLFWwindow* window)
+			{
+				Event* e = new Event(Event::EventTypes::WindowClose);
+				EventHandler::AddEvent(e);
+			});
+
 		glfwSetKeyCallback(m_GLFW_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
 				switch (action)
@@ -58,20 +70,24 @@ namespace CH {
 				case GLFW_REPEAT:
 				case GLFW_PRESS:
 				{
-					Event::s_CurrentKeyPressed = key;
-					break;
+					Event* e = new Event(Event::EventTypes::KeyPressed);
+					e->KeyPressed = key;
+					EventHandler::AddEvent(e);
 				}
 				case GLFW_RELEASE:
 				{
-					Event::s_CurrentKeyReleased = key;
-					break;
+					Event* e = new Event(Event::EventTypes::KeyReleased);
+					e->KeyReleased = key;
+					EventHandler::AddEvent(e);
 				}
 				}
 			});
 
 		glfwSetCharCallback(m_GLFW_Window, [](GLFWwindow* window, unsigned int key)
 			{
-				Event::s_CurrentKeyTyped = key;
+				Event* e = new Event(Event::EventTypes::KeyTyped);
+				e->KeyTyped = key;
+				EventHandler::AddEvent(e);
 			});
 
 		glfwSetMouseButtonCallback(m_GLFW_Window, [](GLFWwindow* window, int button, int action, int mods)
@@ -80,31 +96,56 @@ namespace CH {
 				{
 				case GLFW_PRESS:
 				{
-					if (button == CH_MOUSE_BUTTON_LEFT)	Event::s_CurrentMouseButtonClicked = Event::MouseEvent::LEFT;
-					else if (button == CH_MOUSE_BUTTON_RIGHT) Event::s_CurrentMouseButtonClicked = Event::MouseEvent::RIGHT;
-					else if (button == CH_MOUSE_BUTTON_MIDDLE) Event::s_CurrentMouseButtonClicked = Event::MouseEvent::MIDDLE;
-					break;
+					if (button == CH_MOUSE_BUTTON_LEFT)
+					{
+						Event* e = new Event(Event::EventTypes::LButtonClicked);
+						EventHandler::AddEvent(e);
+					}
+					else if (button == CH_MOUSE_BUTTON_RIGHT)
+					{
+						Event* e = new Event(Event::EventTypes::RButtonClicked);
+						EventHandler::AddEvent(e);
+					}
+					else if (button == CH_MOUSE_BUTTON_MIDDLE)
+					{
+						Event* e = new Event(Event::EventTypes::MButtonClicked);
+						EventHandler::AddEvent(e);
+					}
 				}
 				case GLFW_RELEASE:
 				{
-					if (button == CH_MOUSE_BUTTON_LEFT)	Event::s_CurrentMouseButtonReleased = Event::MouseEvent::LEFT;
-					else if (button == CH_MOUSE_BUTTON_RIGHT) Event::s_CurrentMouseButtonReleased = Event::MouseEvent::RIGHT;
-					else if (button == CH_MOUSE_BUTTON_MIDDLE) Event::s_CurrentMouseButtonReleased = Event::MouseEvent::MIDDLE;
-					break;				
+					if (button == CH_MOUSE_BUTTON_LEFT)
+					{
+						Event* e = new Event(Event::EventTypes::LButtonReleased);
+						EventHandler::AddEvent(e);
+					}
+					else if (button == CH_MOUSE_BUTTON_RIGHT)
+					{
+						Event* e = new Event(Event::EventTypes::RButtonReleased);
+						EventHandler::AddEvent(e);
+					}
+					else if (button == CH_MOUSE_BUTTON_MIDDLE)
+					{
+						Event* e = new Event(Event::EventTypes::MButtonReleased);
+						EventHandler::AddEvent(e);
+					}
 				}
 				}
 			});
 	
 		glfwSetCursorPosCallback(m_GLFW_Window, [](GLFWwindow* window, double xpos, double ypos)
 			{
-				Event::s_MousePos.x = static_cast<float>(xpos);
-				Event::s_MousePos.y = static_cast<float>(ypos);
+				Event* e = new Event(Event::EventTypes::MouseMoved);
+				e->MousePos.x = xpos;
+				e->MousePos.y = ypos;
+				EventHandler::AddEvent(e);
 			});
 	
 		glfwSetScrollCallback(m_GLFW_Window, [](GLFWwindow* window, double xoffset, double yoffset)
 			{
-				Event::s_MouseScrollOffset.x = xoffset;
-				Event::s_MouseScrollOffset.y = yoffset;
+				Event* e = new Event(Event::EventTypes::MouseScrolled);
+				e->MouseScrollOffset = yoffset;
+				EventHandler::AddEvent(e);
 			});
 	
 		glfwSetWindowSizeCallback(m_GLFW_Window, [](GLFWwindow* window, int width, int height)
@@ -113,6 +154,9 @@ namespace CH {
 
 				wndData.Width = width;
 				wndData.Height = height;
+
+				Event* e = new Event(Event::EventTypes::WindowResize);
+				EventHandler::AddEvent(e);
 			});
 	}
 
