@@ -20,11 +20,15 @@ namespace CH {
 		// accessors
 		virtual DX11WindowData GetDX11WindowData() override;
 		virtual void* GetNativeWindow() override;
+
+		// setters
+		void SetDX11WindowData(DX11WindowData data) override;
 		
 	private:
 		DX11WindowData m_WindowData;
 		HWND m_hWnd;
 		bool m_IsOpen = true;
+
 
 	public:
 		void SetHWND(HWND hWnd) { m_hWnd = hWnd; }
@@ -34,6 +38,7 @@ namespace CH {
 		// not needed at all
 		virtual bool Init(OpenGLWindowData wndData) override;
 		virtual OpenGLWindowData GetOpenGLWindowData() override;
+		void SetOpenGLWindowData(OpenGLWindowData data) override {}
 	};
 
 }

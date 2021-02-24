@@ -21,7 +21,7 @@ namespace CH {
 		}
 		case Platforms::MACOS:
 		{
-			CH_ASSERT(false, "OpenGL isnt currently supported...");
+			//CH_ASSERT(false, "OpenGL isnt currently supported...");
 			break;
 		}
 		}
@@ -43,7 +43,7 @@ namespace CH {
 		}
 		case Platforms::MACOS:
 		{
-			CH_ASSERT(false, "OpenGL isnt currently supported...");
+			//CH_ASSERT(false, "OpenGL isnt currently supported...");
 			break;
 		}
 		}

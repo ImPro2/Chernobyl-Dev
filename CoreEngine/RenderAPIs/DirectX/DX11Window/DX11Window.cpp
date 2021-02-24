@@ -5,6 +5,7 @@
 
 #include <WinUser.h>
 
+// function to set events
 LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
 {
     switch (Msg)
@@ -162,6 +163,7 @@ namespace CH {
     {
         m_WindowData = wndData;
 
+        // create WNDCLASSEX for window creation
         WNDCLASSEX wc;
         wc.cbClsExtra = NULL;
         wc.cbSize = sizeof(WNDCLASSEX);
@@ -171,14 +173,16 @@ namespace CH {
         wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
         wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
         wc.hInstance = NULL;
-        wc.lpszClassName = L"MyWindowClass";
+        wc.lpszClassName = L"MyWindowClass";    // this can be anything
         wc.lpszMenuName = L"";
         wc.style = NULL;
         wc.lpfnWndProc = &WndProc;
 
+        // error checking...
         if (!::RegisterClassEx(&wc))
             return false;
 
+        // create the window
         m_hWnd = ::CreateWindowEx(
             WS_EX_OVERLAPPEDWINDOW,
             L"MyWindowClass",
@@ -192,12 +196,13 @@ namespace CH {
             this
         );
 
+        // more error checking...
         if (!m_hWnd)
             return false;
 
+        // show and update the window
         ::ShowWindow(m_hWnd, SW_SHOW);
         ::UpdateWindow(m_hWnd);
-
         return true;
     }
 
@@ -210,6 +215,7 @@ namespace CH {
     {
         MSG msg;
 
+        // poll events
         while (::PeekMessage(&msg, m_hWnd, 0, 0, PM_REMOVE) > 0)
         {
             TranslateMessage(&msg);
@@ -222,10 +228,27 @@ namespace CH {
         return m_IsOpen;
     }
 
-
     DX11Window::DX11WindowData DX11Window::GetDX11WindowData()
     {
         return m_WindowData;
+    }
+
+    void DX11Window::SetDX11WindowData(DX11WindowData data)
+    {
+        // set window data
+        m_WindowData = data;
+
+        // get window position on the screen
+        RECT rc;
+        GetWindowRect(m_hWnd, &rc);
+
+        // set the window position and width and height
+        MoveWindow(m_hWnd, rc.left, rc.top, m_WindowData.Width, m_WindowData.Height, TRUE);
+
+        // set the window text
+        SetWindowText(m_hWnd, m_WindowData.Title);
+
+        // TODO: Set VSync
     }
 
     void* DX11Window::GetNativeWindow()
@@ -233,6 +256,7 @@ namespace CH {
         return m_hWnd;
     }
 
+    // these functions are not needed
     DX11Window::OpenGLWindowData DX11Window::GetOpenGLWindowData()
     {
         return OpenGLWindowData();

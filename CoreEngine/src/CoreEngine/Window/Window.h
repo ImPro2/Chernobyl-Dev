@@ -42,6 +42,8 @@ namespace CH {
 		virtual bool IsOpen() = 0;
 		virtual OpenGLWindowData GetOpenGLWindowData() = 0;
 		virtual DX11WindowData GetDX11WindowData() = 0;
+		virtual void SetOpenGLWindowData(OpenGLWindowData data) = 0;
+		virtual void SetDX11WindowData(DX11WindowData data) = 0;
 		virtual void* GetNativeWindow() = 0;
 	};
 }

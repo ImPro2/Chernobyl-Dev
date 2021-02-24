@@ -18,6 +18,8 @@ namespace CH {
 		void* GetNativeWindow() override { return m_GLFW_Window; }
 		OpenGLWindowData GetOpenGLWindowData() override;
 
+		void SetOpenGLWindowData(OpenGLWindowData data) override { m_WindowData = data; }
+
 	private:
 		void SetEventCallbacks();
 
@@ -27,6 +29,7 @@ namespace CH {
 		// needs to inherit or else doesnt work
 		virtual bool Init(DX11WindowData wndData) override;
 		virtual DX11WindowData GetDX11WindowData() override;
+		virtual void SetDX11WindowData(DX11WindowData data) override {}
 	};
 
 }

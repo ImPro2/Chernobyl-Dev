@@ -4,6 +4,8 @@
 #include "CoreEngine/Events/EventHandler.h"
 #include "CoreEngine/Core/Core.h"
 
+#include <glad/glad.h>
+
 namespace CH {
 
 	bool OpenGLWindow::Init(OpenGLWindowData wndData)
@@ -12,6 +14,9 @@ namespace CH {
 
 		if (!glfwInit())
 			return false;
+
+		glfwWindowHint(GL_MAJOR_VERSION, 3);
+		glfwWindowHint(GL_MINOR_VERSION, 1);
 
 		m_GLFW_Window = glfwCreateWindow(m_WindowData.Width, m_WindowData.Height, m_WindowData.Title, nullptr, nullptr);
 

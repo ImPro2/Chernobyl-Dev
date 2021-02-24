@@ -11,7 +11,7 @@
 namespace CH {
 
 	bool Application::m_Running = true;
-	ImGuiLayer* Application::m_ImGuiLayer = new ImGuiLayer();
+	ImGuiLayer* Application::m_ImGuiLayer;
 
 	void Application::OnCreate()
 	{
@@ -20,7 +20,8 @@ namespace CH {
 		LayerHandler::Init();
 		Renderer::Init();
 
-		LayerHandler::AddFront(m_ImGuiLayer);
+		//m_ImGuiLayer = new ImGuiLayer();
+		//LayerHandler::AddFront(m_ImGuiLayer);
 	}
 
 	void Application::OnUpdate()
@@ -33,19 +34,18 @@ namespace CH {
 		Time::SetDeltaTime();
 
 		// all update here
+
 		for (Layer* layer : LayerHandler::GetLayerStack())
+		{
 			layer->OnUpdate();
-
-		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnEvent();
+		}
 
-		m_ImGuiLayer->Begin();
-
-		for (Layer* layer : LayerHandler::GetLayerStack())
-			layer->OnImGuiRender();
-
-		m_ImGuiLayer->End();
-
+		//m_ImGuiLayer->Begin();
+		//for (Layer* layer : LayerHandler::GetLayerStack())
+		//	layer->OnImGuiRender();
+		//m_ImGuiLayer->End();
+		
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
 	}

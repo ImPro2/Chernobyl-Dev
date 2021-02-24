@@ -32,4 +32,4 @@ namespace CH {
 #define GetFramesPerSec CH::Time::GetFramesPerSecond()
 
 #define FPS GetFramesPerSec
-#define DeltaTime DeltaTimeAsSec
+#define dt DeltaTimeAsSec
