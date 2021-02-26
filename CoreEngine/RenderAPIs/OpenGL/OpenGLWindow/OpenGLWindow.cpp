@@ -25,6 +25,9 @@ namespace CH {
 
 		glfwMakeContextCurrent(m_GLFW_Window);
 
+		// VERY TEMPORARY: Should be in another sort of 'GL3' class
+		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
 		glfwSetWindowUserPointer(m_GLFW_Window, &m_WindowData);
 
 		SetEventCallbacks();

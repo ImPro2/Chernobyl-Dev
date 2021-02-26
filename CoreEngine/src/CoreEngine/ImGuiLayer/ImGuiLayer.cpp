@@ -1,36 +1,41 @@
 #include "ImGuiLayer.h"
 
-#include "CoreEngine/Events/EventHandler.h"
+// include ImGui headers
+#include "imgui.h"
+#include "examples/imgui_impl_glfw.h"
+#include "examples/imgui_impl_opengl3.h"
+
 #include "CoreEngine/Window/WindowHandler.h"
-#include "../Platform/Platform.h"
-#include "CoreEngine/Core/Renderer2D/GraphicsEngine/GraphicsEngine.h"
-
-#define IMGUI_IMPL_API
-#include <examples/imgui_impl_glfw.h>
-#include <examples/imgui_impl_opengl3.h>
-
-#include <examples/imgui_impl_win32.h>
-#include <examples/imgui_impl_dx11.h>
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace CH {
 
+	ImGuiLayer::ImGuiLayer()
+		: Layer("ImGuiLayer")
+	{
+	}
+
+	ImGuiLayer::~ImGuiLayer()
+	{
+	}
+
 	void ImGuiLayer::OnAttach()
 	{
-		// setup imgui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
-		(void)io;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.DisplaySize = ImVec2(800, 600);
 
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+	
+		// set imgui style to dark
+		// TODO: make my own style somehow
 		ImGui::StyleColorsDark();
 
+		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
@@ -38,79 +43,42 @@ namespace CH {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
+		GLFWwindow* window = static_cast<GLFWwindow*>(WindowHandler::GetNativeWindow());
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 430");
+	}
 
-		switch (Platform::GetCurrentPlatform())
-		{
-		case Platforms::MACOS:
-		{
-			GLFWwindow* window = static_cast<GLFWwindow*>(WindowHandler::GetNativeWindow());
-
-			ImGui_ImplGlfw_InitForOpenGL(window, true);
-			ImGui_ImplOpenGL3_Init("#version 410");
-			break;
-		}
-		case Platforms::WINDOWS:
-		{
-			HWND* hwnd = static_cast<HWND*>(WindowHandler::GetNativeWindow());
-
-			ID3D11Device* device = static_cast<ID3D11Device*>(GraphicsEngine::GetD3DDevice());
-			ID3D11DeviceContext* deviceContext = static_cast<ID3D11DeviceContext*>(GraphicsEngine::GetD3DDeviceContext());
-			
-			ImGui_ImplWin32_Init(hwnd);
-			ImGui_ImplDX11_Init(device, deviceContext);
-			break;
-		}
-		}
+	void ImGuiLayer::OnDetach()
+	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 	void ImGuiLayer::Begin()
 	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		switch (Platform::GetCurrentPlatform())
-		{
-		case Platforms::WINDOWS:
-			ImGui_ImplDX11_NewFrame();
-			ImGui_ImplWin32_NewFrame();
-			break;
-		case Platforms::MACOS:
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			break;
-		}
 	}
 
 	void ImGuiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
+	
+		// set the display size
+		io.DisplaySize = ImVec2(WindowHandler::GetWidth(), WindowHandler::GetHeight());
 
-		switch (Platform::GetCurrentPlatform())
-		{
-		case Platforms::WINDOWS:
-		{
-			ImGui::Render();
-			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+		// Render
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-			{
-				ImGui::UpdatePlatformWindows();
-				ImGui::RenderPlatformWindowsDefault();
-			}
-			break;
-		}
-		case Platforms::MACOS:
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-			{
-				GLFWwindow* backup_current_context = glfwGetCurrentContext();
-				ImGui::UpdatePlatformWindows();
-				ImGui::RenderPlatformWindowsDefault();
-				glfwMakeContextCurrent(backup_current_context);
-			}
-			break;
-		}
+			GLFWwindow* backupCurrentContext = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backupCurrentContext);
 		}
 	}
 

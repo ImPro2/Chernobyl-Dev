@@ -45,9 +45,6 @@ project "Chernobyl"
 
     links
     {
-        "ImGui",
-        "GLFW",
-        "Glad",
         "CoreEngine"
     }
 

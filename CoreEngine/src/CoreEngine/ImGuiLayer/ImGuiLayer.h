@@ -7,16 +7,20 @@ namespace CH {
 	class ImGuiLayer : public Layer
 	{
 	public:
-		ImGuiLayer() : Layer("ImGuiLayer")	{}
-		~ImGuiLayer() {}
+		// constructor and destructor
+		ImGuiLayer();
+		~ImGuiLayer();
 
+		// initializations and destruction
 		void OnAttach() override;
-		void OnDetach() override {};
-		void OnImGuiRender() override;
+		void OnDetach() override;
 
+		// called before and after OnImGuiRender() to actually render stuff
 		void Begin();
 		void End();
 
-    };
+		// called when something can be rendered
+		void OnImGuiRender() override;
+	};
 
 }
