@@ -44,6 +44,7 @@ namespace CH {
 	void OpenGLWindow::Update()
 	{
 		glfwSwapBuffers(m_GLFW_Window);
+		glClear(GL_COLOR_BUFFER_BIT);
 		glfwPollEvents();
 	}
 

@@ -64,28 +64,35 @@ namespace CH {
 
 	void ImGuiLayer::End()
 	{
+		float time = (float)glfwGetTime();
+		float dt = time - m_LastFrameTime;
+		m_LastFrameTime = time;
+		
 		ImGuiIO& io = ImGui::GetIO();
 	
 		// set the display size
 		io.DisplaySize = ImVec2(WindowHandler::GetWidth(), WindowHandler::GetHeight());
+		io.DeltaTime = dt;
 
 		// Render
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+		// update windows
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			GLFWwindow* backupCurrentContext = glfwGetCurrentContext();
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(backupCurrentContext);
+			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		ImGui::Begin("Hello world");
+		ImGui::Text("Hello world");
+		ImGui::End();
 	}
 
 }

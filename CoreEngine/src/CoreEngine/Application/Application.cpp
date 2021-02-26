@@ -46,6 +46,7 @@ namespace CH {
 			layer->OnImGuiRender();
 		m_ImGuiLayer->End();
 		
+		
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
 	}

@@ -21,6 +21,9 @@ namespace CH {
 
 		// called when something can be rendered
 		void OnImGuiRender() override;
+
+	private:
+		float m_LastFrameTime = 0;
 	};
 
 }
