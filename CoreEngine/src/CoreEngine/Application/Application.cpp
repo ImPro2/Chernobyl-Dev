@@ -8,6 +8,8 @@
 #include "CoreEngine/Core/Layer/LayerHandler.h"
 #include "CoreEngine/Core/Renderer2D/Renderer/Renderer.h"
 
+#include <GLFW/glfw3.h>
+
 namespace CH {
 
 	bool Application::m_Running = true;
@@ -29,12 +31,10 @@ namespace CH {
 		// poll events
 		WindowHandler::UpdateWindow();
 		EventHandler::Update();
-		
-		// set the time difference between two frames
-		Time::SetDeltaTime();
+
+		Time::Set();
 
 		// all update here
-
 		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnUpdate();
 
@@ -45,8 +45,9 @@ namespace CH {
 		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnImGuiRender();
 		m_ImGuiLayer->End();
-		
-		
+
+		CH_INFO("DeltaTime: {0}", dt);
+
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
 	}

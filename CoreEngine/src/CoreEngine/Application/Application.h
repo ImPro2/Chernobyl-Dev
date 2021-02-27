@@ -19,7 +19,6 @@ namespace CH {
 	private:
 		static bool m_Running;
 
-		// TEMPORARY
 		static ImGuiLayer* m_ImGuiLayer;
 	};
 
