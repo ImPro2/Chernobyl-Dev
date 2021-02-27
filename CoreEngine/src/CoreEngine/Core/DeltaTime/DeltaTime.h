@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 namespace CH {
 
 	class Time;
@@ -11,8 +13,9 @@ namespace CH {
 		DeltaTime() {}
 		~DeltaTime() {}
 
-		float asSeconds() { return m_Time * 10.0f; }
-		float asMilliSeconds() { return m_Time; }
+		float asSeconds() { return m_Time * 100.0f; }
+		float asMilliSeconds() { return m_Time * 10.0f; }
+		float asMicroSeconds() { return m_Time; }
 
 		operator float()
 		{
@@ -36,14 +39,13 @@ namespace CH {
 		static DeltaTime deltaTime;
 	
 	private:
+		static void Init();
 		static void Set();
 
 	private:
-		static float m_LastFrameTime;
+		static std::chrono::steady_clock::time_point last;
 
 		friend class Application;
 	};
-
-#define dt Time::deltaTime.asSeconds()
 
 }

@@ -1,6 +1,6 @@
 #include "DX11Window.h"
 
-#include "CoreEngine/Events/EventHandler.h"
+#include "CoreEngine/Core/Events/EventHandler.h"
 #include "CoreEngine/Core/Log/Log.h"
 
 #include <WinUser.h>

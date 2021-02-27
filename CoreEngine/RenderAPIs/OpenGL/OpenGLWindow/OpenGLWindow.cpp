@@ -1,7 +1,7 @@
 #include "OpenGLWindow.h"
 
 #include "CoreEngine/Core/Log/Log.h"
-#include "CoreEngine/Events/EventHandler.h"
+#include "CoreEngine/Core/Events/EventHandler.h"
 #include "CoreEngine/Core/Core.h"
 
 #include <glad/glad.h>

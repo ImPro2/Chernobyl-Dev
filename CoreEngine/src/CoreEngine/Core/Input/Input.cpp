@@ -9,7 +9,7 @@
 #include "CoreEngine/Core/Log/Log.h"
 #include "CoreEngine/Core/Core.h"
 
-#include "CoreEngine/Events/EventHandler.h"
+#include "CoreEngine/Core/Events/EventHandler.h"
 
 namespace CH {
 

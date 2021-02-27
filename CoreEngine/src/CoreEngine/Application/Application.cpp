@@ -1,12 +1,11 @@
 #include "Application.h"
 
 #include "CoreEngine/Core/Log/Log.h"
-#include "CoreEngine/Events/EventHandler.h"
-#include "CoreEngine/Input/Input.h"				// temporary
+#include "CoreEngine/Core/Events/EventHandler.h"
+#include "CoreEngine/Core/Input/Input.h"				// temporary
 #include "CoreEngine/Window/WindowHandler.h"
 #include "CoreEngine/Core/DeltaTime/DeltaTime.h"
 #include "CoreEngine/Core/Layer/LayerHandler.h"
-#include "CoreEngine/Core/Renderer2D/Renderer/Renderer.h"
 
 #include <GLFW/glfw3.h>
 
@@ -20,10 +19,10 @@ namespace CH {
 		Log::Init();
 		WindowHandler::CreateWindowNativeToPlatform();
 		LayerHandler::Init();
-		Renderer::Init();
 
-		m_ImGuiLayer = new ImGuiLayer();
-		LayerHandler::AddFront(m_ImGuiLayer);
+		//m_ImGuiLayer = new ImGuiLayer();
+		//LayerHandler::AddFront(m_ImGuiLayer);
+		Time::Init();
 	}
 
 	void Application::OnUpdate()
@@ -41,12 +40,10 @@ namespace CH {
 		for (Layer* layer : LayerHandler::GetLayerStack())
 			layer->OnEvent();
 
-		m_ImGuiLayer->Begin();
-		for (Layer* layer : LayerHandler::GetLayerStack())
-			layer->OnImGuiRender();
-		m_ImGuiLayer->End();
-
-		CH_INFO("DeltaTime: {0}", dt);
+		//m_ImGuiLayer->Begin();
+		//for (Layer* layer : LayerHandler::GetLayerStack())
+		//	layer->OnImGuiRender();
+		//m_ImGuiLayer->End();
 
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
@@ -57,6 +54,5 @@ namespace CH {
 		m_Running = false;
 		WindowHandler::DestroyWindow();
 		LayerHandler::Destroy();
-		Renderer::Destroy();
 	}
 }
