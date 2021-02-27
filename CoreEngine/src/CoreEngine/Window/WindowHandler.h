@@ -37,8 +37,6 @@ namespace CH {
 		static void SetTitle(const char* title);
 		static void SetTitle(const wchar_t* title);
 		static void SetVSync(bool enabled);
-
-	private:
 		static Window::OpenGLWindowData GetOpenGLWindowData();
 		static Window::DX11WindowData GetDX11WindowData();
 

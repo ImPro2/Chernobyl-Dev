@@ -1,56 +1,49 @@
 #include "DX11Device.h"
-#include "../DX11DeviceContext/DX11DeviceContext.h"
-
-#include "CoreEngine/Core/Log/Log.h"
-#include "CoreEngine/Core/Core.h"
+#include "CoreEngine/Core/Types.h"
 
 namespace CH {
 
-	ID3D11Device*			DX11Device::DX11Device::m_D3D_Device;
-	ID3D11DeviceContext*	DX11Device::m_D3D_DeviceContext;
-	D3D_FEATURE_LEVEL*		DX11Device::DX11Device::m_D3D_FeatureLevel;
-
-	void DX11Device::Init()
+	DX11Device::DX11Device()
 	{
-		D3D_DRIVER_TYPE driverTypes[] =
+	}
+
+	DX11Device::~DX11Device()
+	{
+	}
+
+	bool DX11Device::Init()
+	{
+		D3D_DRIVER_TYPE driver_types[] =
 		{
 			D3D_DRIVER_TYPE_HARDWARE,
 			D3D_DRIVER_TYPE_WARP,
 			D3D_DRIVER_TYPE_REFERENCE
 		};
-		UINT numDriverTypes = ARRAYSIZE(driverTypes);
+		UINT num_driver_types = ARRAYSIZE(driver_types);
 
-		D3D_FEATURE_LEVEL featureLevels[] =
+		D3D_FEATURE_LEVEL feature_levels[] =
 		{
 			D3D_FEATURE_LEVEL_11_0
 		};
-		UINT numFeatureLevels = ARRAYSIZE(featureLevels);
+		UINT num_feature_levels = ARRAYSIZE(feature_levels);
 
-		HRESULT result = 0;
+		HRESULT res = 0;
 
-		for (int i = 0; i < numDriverTypes; i++)
+		for (UINT driver_type_index = 0; driver_type_index < num_driver_types;)
 		{
-			result = D3D11CreateDevice(
-				NULL,
-				driverTypes[i],
-				NULL,
-				NULL,
-				featureLevels,
-				numFeatureLevels,
-				D3D11_SDK_VERSION,
-				&m_D3D_Device,
-				m_D3D_FeatureLevel,
-				&m_D3D_DeviceContext);
-
-			if (SUCCEEDED(result))
+			res = D3D11CreateDevice(NULL, driver_types[driver_type_index], NULL, NULL, feature_levels,
+				num_feature_levels, D3D11_SDK_VERSION, &m_D3D_Device, &m_D3D_FeatureLevel, &m_D3D_DeviceContext);
+			if (SUCCEEDED(res))
 				break;
-
-			CH_CORE_WARN("D3D Driver Type is lower than D3D_DRIVER_TYPE_HARDWARE. Please considering updating your graphics driver.");
+			++driver_type_index;
 		}
 
-		CH_ASSERT(SUCCEEDED(result), "Failed to create D3D11Device :(");
+		if (FAILED(res))
+		{
+			return false;
+		}
 
-		CH_CORE_INFO("Successfully initialized DX11Device");
+		return true;
 	}
 
 	void DX11Device::Destroy()

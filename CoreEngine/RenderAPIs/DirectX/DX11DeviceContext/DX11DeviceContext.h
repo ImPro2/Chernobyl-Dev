@@ -1,18 +1,19 @@
 #pragma once
 
-#include <d3d11.h>
+#include "../DX11Context/DX11Context.h"
+#include "../DX11SwapChain/DX11SwapChain.h"
+
+#include <glm/glm.hpp>
 
 namespace CH {
-
-	class GraphicsEngine;
 
 	class DX11DeviceContext
 	{
 	public:
+		DX11DeviceContext();
+		~DX11DeviceContext();
 
-	private:
-
-		friend class GraphicsEngine;
+		void ClearRenderTargetColor(DX11Context* context, DX11SwapChain* swapChain, const glm::vec4& clearColor);
 	};
 
 }

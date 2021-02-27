@@ -1,23 +1,26 @@
 #pragma once
 
 #include <d3d11.h>
+#include <Windows.h>
 
 namespace CH {
-
-	class GraphicsEngine;
 
 	class DX11Device
 	{
 	public:
-		static void Init();
-		static void Destroy();
+		DX11Device();
+		~DX11Device();
+
+		bool Init();
+		void Destroy();
+
+		ID3D11Device* GetD3DDevice() const { return m_D3D_Device; }
+		ID3D11DeviceContext* GetD3DDeviceContext() const { return m_D3D_DeviceContext; }
 
 	private:
-		static ID3D11Device* m_D3D_Device;
-		static ID3D11DeviceContext* m_D3D_DeviceContext;
-		static D3D_FEATURE_LEVEL* m_D3D_FeatureLevel;
-
-		friend class GraphicsEngine;
+		ID3D11Device* m_D3D_Device;
+		ID3D11DeviceContext* m_D3D_DeviceContext;
+		D3D_FEATURE_LEVEL m_D3D_FeatureLevel;
 	};
 
 }

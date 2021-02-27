@@ -6,6 +6,7 @@
 #include "CoreEngine/Window/WindowHandler.h"
 #include "CoreEngine/Core/DeltaTime/DeltaTime.h"
 #include "CoreEngine/Core/Layer/LayerHandler.h"
+#include "CoreEngine/Renderer/Renderer.h"
 
 #include <GLFW/glfw3.h>
 
@@ -18,6 +19,7 @@ namespace CH {
 	{
 		Log::Init();
 		WindowHandler::CreateWindowNativeToPlatform();
+		Renderer::Init();
 		LayerHandler::Init();
 
 		//m_ImGuiLayer = new ImGuiLayer();
@@ -45,6 +47,9 @@ namespace CH {
 		//	layer->OnImGuiRender();
 		//m_ImGuiLayer->End();
 
+		RenderCommand::SetClearColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		RenderCommand::Clear();
+
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();
 	}
@@ -52,6 +57,7 @@ namespace CH {
 	void Application::OnDestroy()
 	{
 		m_Running = false;
+		Renderer::Destroy();
 		WindowHandler::DestroyWindow();
 		LayerHandler::Destroy();
 	}

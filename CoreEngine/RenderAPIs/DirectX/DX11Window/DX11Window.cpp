@@ -158,7 +158,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT Msg, WPARAM wparam, LPARAM lparam)
 
 namespace CH {
 
-
     bool DX11Window::Init(DX11WindowData wndData)
     {
         m_WindowData = wndData;
@@ -203,6 +202,7 @@ namespace CH {
         // show and update the window
         ::ShowWindow(m_hWnd, SW_SHOW);
         ::UpdateWindow(m_hWnd);
+
         return true;
     }
 
