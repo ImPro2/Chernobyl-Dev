@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "Application.h"
 
 #include "CoreEngine/Core/Log/Log.h"
@@ -25,6 +26,8 @@ namespace CH {
 		//m_ImGuiLayer = new ImGuiLayer();
 		//LayerHandler::AddFront(m_ImGuiLayer);
 		Time::Init();
+
+		WindowHandler::SetVSync(false);
 	}
 
 	void Application::OnUpdate()
@@ -47,7 +50,6 @@ namespace CH {
 		//	layer->OnImGuiRender();
 		//m_ImGuiLayer->End();
 
-		RenderCommand::SetClearColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		RenderCommand::Clear();
 		RenderCommand::SwapBufers();
 

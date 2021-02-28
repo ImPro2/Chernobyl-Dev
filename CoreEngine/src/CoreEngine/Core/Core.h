@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Log/Log.h"
+#include "Types.h"
+
 #include <iostream>
 #include <memory>
 

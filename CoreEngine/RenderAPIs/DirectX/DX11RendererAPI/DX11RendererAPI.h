@@ -21,6 +21,8 @@ namespace CH {
 		virtual void SetClearColor(glm::vec4 color) override;
 		virtual void Clear() override;
 
+		virtual void SetVSync(bool enabled) override;
+
 		void SwapBuffers() override;
 	};
 

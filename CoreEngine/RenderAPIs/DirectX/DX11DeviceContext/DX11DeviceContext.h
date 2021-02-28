@@ -8,6 +8,7 @@
 
 namespace CH {
 
+	// class responsible for using the device context created by the DX11Device class to execute render commands
 	class DX11DeviceContext
 	{
 	public:
@@ -16,6 +17,7 @@ namespace CH {
 
 		void ClearColor(DX11SwapChain* swapChain, const glm::vec4& clearColor);
 
+		// set and get the device context
 		void SetD3DDeviceContext(ID3D11DeviceContext* deviceContext);
 		ID3D11DeviceContext* GetD3DDeviceContext() { return m_DeviceContext; }
 	

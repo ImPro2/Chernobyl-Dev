@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "Platform.h"
 
 namespace CH {

@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "Renderer.h"
 
 #include "CoreEngine/Window/WindowHandler.h"
@@ -11,12 +12,19 @@ namespace CH {
 	{
 		RenderCommand::s_RendererAPI = new DX11RendererAPI();
 
-		RenderCommand::s_RendererAPI->Init(WindowHandler::GetNativeWindow(), WindowHandler::GetDX11WindowData(), WindowHandler::GetOpenGLWindowData());
+		switch (RendererAPI::GetAPI())
+		{
+		case RenderAPI::DX11:
+			RenderCommand::Init(WindowHandler::GetNativeWindow(), WindowHandler::GetDX11WindowData(), Window::OpenGLWindowData());
+			break;
+		case RenderAPI::GL4_0:
+			RenderCommand::Init(WindowHandler::GetNativeWindow(), Window::DX11WindowData(), WindowHandler::GetOpenGLWindowData());
+		}
 	}
 
 	void Renderer::Destroy()
 	{
-		RenderCommand::s_RendererAPI->Destroy();
+		RenderCommand::Destroy();
 	}
 
 }

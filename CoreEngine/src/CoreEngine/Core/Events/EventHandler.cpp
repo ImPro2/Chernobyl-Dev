@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "EventHandler.h"
 
 namespace CH {

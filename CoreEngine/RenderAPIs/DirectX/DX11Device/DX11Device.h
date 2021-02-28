@@ -7,6 +7,7 @@
 
 namespace CH {
 
+	// class reponsible for the creation and destruction of a device and device context
 	class DX11Device
 	{
 	public:

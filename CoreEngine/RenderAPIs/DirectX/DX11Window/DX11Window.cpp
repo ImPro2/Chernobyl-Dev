@@ -1,7 +1,9 @@
+#include "chpch.h"
 #include "DX11Window.h"
 
 #include "CoreEngine/Core/Events/EventHandler.h"
 #include "CoreEngine/Core/Log/Log.h"
+#include "CoreEngine/Renderer/RenderCommand.h"
 
 #include <WinUser.h>
 
@@ -184,11 +186,11 @@ namespace CH {
         // create the window
         m_hWnd = ::CreateWindowEx(
             WS_EX_OVERLAPPEDWINDOW,
-            L"MyWindowClass",
-            m_WindowData.Title,
-            WS_OVERLAPPEDWINDOW,
-            CW_USEDEFAULT, CW_USEDEFAULT,
-            m_WindowData.Width, m_WindowData.Height,
+            L"MyWindowClass",       // must be the same as the 'lpszClassName'
+            m_WindowData.Title,     // Winodw Title
+            WS_OVERLAPPEDWINDOW,    // Window Type
+            CW_USEDEFAULT, CW_USEDEFAULT,               // Window Position
+            m_WindowData.Width, m_WindowData.Height,    // Window Size
             NULL,
             NULL,
             NULL,
@@ -221,6 +223,8 @@ namespace CH {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+
+        RenderCommand::SwapBufers();
     }
 
     bool DX11Window::IsOpen()
@@ -248,7 +252,8 @@ namespace CH {
         // set the window text
         SetWindowText(m_hWnd, m_WindowData.Title);
 
-        // TODO: Set VSync
+        // Set VSync
+        RenderCommand::SetVSync(data.isVsync);
     }
 
     void* DX11Window::GetNativeWindow()
@@ -259,11 +264,13 @@ namespace CH {
     // these functions are not needed
     DX11Window::OpenGLWindowData DX11Window::GetOpenGLWindowData()
     {
+        CH_CORE_WARN("Should call GetDX11WindowData()");
         return OpenGLWindowData();
     }
     
     bool DX11Window::Init(OpenGLWindowData wndData)
     {
+        CH_CORE_WARN("Should call with DX11WindowData");
         return false;
     }
 }

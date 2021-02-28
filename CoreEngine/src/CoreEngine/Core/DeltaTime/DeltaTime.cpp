@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "DeltaTime.h"
 #include "CoreEngine/Application/Application.h"
 #include "../Platform/Platform.h"

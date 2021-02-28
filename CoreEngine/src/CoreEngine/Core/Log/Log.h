@@ -24,12 +24,12 @@ namespace CH {
 
 }
 
-#define CH_CORE_INFO(...) Log::GetCoreLogger()->info(__VA_ARGS__)
-#define CH_CORE_WARN(...) Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define CH_CORE_ERROR(...) Log::GetCoreLogger()->error(__VA_ARGS__)
-#define CH_CORE_FATAL(...) Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define CH_CORE_INFO(...) CH::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define CH_CORE_WARN(...) CH::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define CH_CORE_ERROR(...) CH::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define CH_CORE_FATAL(...) CH::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
-#define CH_INFO(...) Log::GetClientLogger()->info(__VA_ARGS__)
-#define CH_WARN(...) Log::GetClientLogger()->warn(__VA_ARGS__)
-#define CH_ERROR(...) Log::GetClientLogger()->error(__VA_ARGS__)
-#define CH_FATAL(...) Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define CH_INFO(...) CH::Log::GetClientLogger()->info(__VA_ARGS__)
+#define CH_WARN(...) CH::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define CH_ERROR(...) CH::Log::GetClientLogger()->error(__VA_ARGS__)
+#define CH_FATAL(...) CH::Log::GetClientLogger()->fatal(__VA_ARGS__)

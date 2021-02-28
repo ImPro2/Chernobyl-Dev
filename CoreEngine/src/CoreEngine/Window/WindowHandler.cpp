@@ -1,3 +1,4 @@
+#include "chpch.h"
 #include "WindowHandler.h"
 #include "../Platform/Platform.h"
 

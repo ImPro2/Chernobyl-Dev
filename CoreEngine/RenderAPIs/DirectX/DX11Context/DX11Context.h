@@ -7,6 +7,8 @@
 
 namespace CH {
 
+	// class that has a DX11Device and DX11DeviceContext that is accessed through this class.
+	// OpenGL would just be glfwMakeContextCurrent((GLFWwindow*)handle); for this
 	class DX11Context : public Context
 	{
 	public:
