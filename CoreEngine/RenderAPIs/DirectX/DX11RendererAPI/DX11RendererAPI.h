@@ -21,8 +21,7 @@ namespace CH {
 		virtual void SetClearColor(glm::vec4 color) override;
 		virtual void Clear() override;
 
-	private:
-		DX11DeviceContext* m_DX11_DeviceContext;
+		void SwapBuffers() override;
 	};
 
 }

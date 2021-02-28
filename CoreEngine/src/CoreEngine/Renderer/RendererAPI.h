@@ -30,12 +30,15 @@ namespace CH {
 		virtual void SetClearColor(glm::vec4 color) = 0;
 		virtual void Clear() = 0;
 
+		virtual void SwapBuffers() = 0;
+
 		inline static RenderAPI GetAPI() { return s_API; }
 		inline static void SetAPI(RenderAPI api) { s_API = api; }
 
 	protected:
 		Context* m_Context;
 		SwapChain* m_SwapChain;
+		glm::vec4 m_ClearColor;
 
 	private:
 		static RenderAPI s_API;

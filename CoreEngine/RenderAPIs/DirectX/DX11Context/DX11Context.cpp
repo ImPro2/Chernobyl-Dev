@@ -6,7 +6,8 @@ namespace CH {
 
 	bool DX11Context::CreateContext(void* handle)
 	{
-		return static_cast<DX11Device*>(m_Context)->Init();
+		bool status = m_DX11_Device.Init();
+		m_DX11_DeviceContext.SetD3DDeviceContext(m_DX11_Device.GetD3DDeviceContext());
+		return status;
 	}
-
 }

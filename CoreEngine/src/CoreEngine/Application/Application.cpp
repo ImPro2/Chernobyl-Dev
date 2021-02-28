@@ -49,6 +49,7 @@ namespace CH {
 
 		RenderCommand::SetClearColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		RenderCommand::Clear();
+		RenderCommand::SwapBufers();
 
 		// get run state, closes if false
 		m_Running = WindowHandler::GetWindowRunState();

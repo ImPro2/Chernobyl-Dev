@@ -3,17 +3,22 @@
 #include "CoreEngine/Renderer/Context.h"
 #include "../DX11Device/DX11Device.h"
 
+#include "../DX11DeviceContext/DX11DeviceContext.h"
+
 namespace CH {
 
-	// TODO: Create a Context interface that OpenGL and DirectX can override
 	class DX11Context : public Context
 	{
 	public:
 		bool CreateContext(void* handle) override;
-		void DestroyContext() override { static_cast<DX11Device*>(m_Context)->Destroy(); }
+		void DestroyContext() override { m_DX11_Device.Destroy(); }
 
-		void* GetContext() override { return static_cast<DX11Device*>(m_Context)->GetD3DDevice(); }
-		ID3D11DeviceContext* GetDeviceContext() { return static_cast<DX11Device*>(m_Context)->GetD3DDeviceContext(); }
+		DX11Device GetDX11Device() { return m_DX11_Device; }
+		DX11DeviceContext GetDX11DeviceContext() { return m_DX11_DeviceContext; }
+
+	private:
+		DX11Device m_DX11_Device;
+		DX11DeviceContext m_DX11_DeviceContext;
 	};
 
 }

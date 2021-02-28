@@ -28,6 +28,11 @@ namespace CH {
 			s_RendererAPI->SetAPI(api);
 		}
 
+		inline static void SwapBufers()
+		{
+			s_RendererAPI->SwapBuffers();
+		}
+
 	private:
 		friend class Renderer;
 

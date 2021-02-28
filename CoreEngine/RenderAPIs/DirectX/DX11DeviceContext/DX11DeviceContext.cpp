@@ -2,8 +2,6 @@
 
 namespace CH {
 
-
-
 	DX11DeviceContext::DX11DeviceContext()
 	{
 	}
@@ -12,14 +10,19 @@ namespace CH {
 	{
 	}
 
-	void DX11DeviceContext::ClearRenderTargetColor(DX11Context* context, DX11SwapChain* swapChain, const glm::vec4& clearColor)
+	void DX11DeviceContext::SetD3DDeviceContext(ID3D11DeviceContext* deviceContext)
+	{
+		m_DeviceContext = deviceContext;
+	}
+
+	void DX11DeviceContext::ClearColor(DX11SwapChain* swapChain, const glm::vec4& clearColor)
 	{
 		float color[]
 		{
 			clearColor.r, clearColor.g, clearColor.b, clearColor.a
 		};
 
-		context->GetDeviceContext()->ClearRenderTargetView(swapChain->GetD3DRenderTargetView(), color);
+		m_DeviceContext->ClearRenderTargetView(swapChain->GetD3DRenderTargetView(), color);
 	}
 
 }

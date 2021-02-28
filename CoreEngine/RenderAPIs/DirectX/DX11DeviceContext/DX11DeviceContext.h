@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../DX11Context/DX11Context.h"
-#include "../DX11SwapChain/DX11SwapChain.h"
 
 #include <glm/glm.hpp>
+#include <d3d11.h>
+
+#include "../DX11SwapChain/DX11SwapChain.h"
 
 namespace CH {
 
@@ -13,7 +14,13 @@ namespace CH {
 		DX11DeviceContext();
 		~DX11DeviceContext();
 
-		void ClearRenderTargetColor(DX11Context* context, DX11SwapChain* swapChain, const glm::vec4& clearColor);
+		void ClearColor(DX11SwapChain* swapChain, const glm::vec4& clearColor);
+
+		void SetD3DDeviceContext(ID3D11DeviceContext* deviceContext);
+		ID3D11DeviceContext* GetD3DDeviceContext() { return m_DeviceContext; }
+	
+	private:
+		ID3D11DeviceContext* m_DeviceContext;
 	};
 
 }
